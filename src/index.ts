@@ -1,32 +1,30 @@
-interface persontype {
+//Assignment
+
+//Create a function that takes either a user or an admin object as an input, and returns a string saying "Welcome, [name]".
+
+interface Admin {
   name: string;
-  age: number;
-  greet: () => void;
-  islegal: () => boolean;
+  permissions: String;
 }
 
-class Manager implements persontype {
+interface User {
   name: string;
   age: number;
-
-  constructor(name: string, age: number) {
-    this.name = name;
-    this.age = age;
-  }
-
-  greet(): void {
-    console.log("Hello world");
-  }
-
-  islgeal(): boolean {
-    if (this.age > 18) {
-      return true;
-    }
-    return false;
-  }
 }
 
-const M1 = new Manager("Ramesh", 12);
-M1.greet();
+type usertype = User | Admin;
+function greet(user: usertype) {
+  console.log(user.name);
+}
 
-console.log(M1.name);
+let u1: User = {
+  name: "Tushar",
+  age: 21,
+};
+
+let u2: Admin = {
+  name: "TusharAdmin",
+  permissions: "Access to this repo",
+};
+
+greet(u1);

@@ -1,17 +1,16 @@
 "use strict";
+//Assignment
 Object.defineProperty(exports, "__esModule", { value: true });
-class Manager {
-    name;
-    age;
-    constructor(name, age) {
-        this.name = name;
-        this.age = age;
-    }
-    greet() {
-        console.log("Hello world");
-    }
+function greet(user) {
+    console.log(user.name);
 }
-const M1 = new Manager("Ramesh", 12);
-M1.greet();
-console.log(M1.name);
+let u1 = {
+    name: "Tushar",
+    age: 21,
+};
+let u2 = {
+    name: "TusharAdmin",
+    permissions: "Access to this repo",
+};
+greet(u1);
 //# sourceMappingURL=index.js.map
