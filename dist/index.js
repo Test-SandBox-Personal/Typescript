@@ -1,12 +1,29 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-//return the first element of array now input array can be string or number or any custom type;
-//This is how generic works
-function getel(arg) {
-    return arg[0];
-}
-const el1 = getel(["s1", "s2", "s3"]);
-const el2 = getel([1, 2, 3, 4, 5, 6]);
-const el3 = getel(["s1", 1, 2, 3]);
-console.log(el3);
+const zod_1 = require("zod");
+const express_1 = __importDefault(require("express"));
+const app = (0, express_1.default)();
+app.use(express_1.default.json());
+const userProfile = zod_1.z.object({
+    name: zod_1.z.string().min(1),
+    email: zod_1.z.string().email(),
+    age: zod_1.z.number().min(18).optional(),
+});
+app.put("/user", (req, res) => {
+    const parsed = userProfile.safeParse(req.body);
+    if (!parsed.success) {
+        res.status(404).json({
+            message: "Error while submitting form",
+        });
+        return;
+    }
+    const updateBody = req.body;
+    res.status(200).json({
+        data: updateBody,
+        message: "Data sent successfully to the server",
+    });
+});
 //# sourceMappingURL=index.js.map

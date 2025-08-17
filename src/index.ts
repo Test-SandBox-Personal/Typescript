@@ -1,14 +1,29 @@
-//return the first element of array now input array can be string or number or any custom type;
-//This is how generic works
-function getel<T>(arg: T[]): T {
-  return arg[0];
-}
+import { z } from "zod";
+import express from "express";
 
-const el1 = getel<string>(["s1", "s2", "s3"]);
-const el2 = getel<number>([1, 2, 3, 4, 5, 6]);
+const app = express();
 
-type eltype = number | string;
+app.use(express.json());
+const userProfile = z.object({
+  name: z.string().min(1),
+  email: z.string().email(),
+  age: z.number().min(18).optional(),
+});
+//type infrence in zod validation
+type userprofiletype = z.infer<typeof userProfile>;
 
-const el3 = getel<eltype>(["s1", 1, 2, 3]);
+app.put("/user", (req, res) => {
+  const parsed = userProfile.safeParse(req.body);
 
-console.log(el3);
+  if (!parsed.success) {
+    res.status(404).json({
+      message: "Error while submitting form",
+    });
+    return;
+  }
+  const updateBody: userprofiletype = req.body;
+  res.status(200).json({
+    data: updateBody,
+    message: "Data sent successfully to the server",
+  });
+});
